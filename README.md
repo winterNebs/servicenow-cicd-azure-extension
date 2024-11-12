@@ -67,6 +67,9 @@ This command will check the latest version among all the tasks jsons an extensio
 File [extension.vsixmanifest](src/extension/extension.vsixmanifest) contains the info about Extension, it's publisher, version, name and description. If you start a **fork** - make sure you have changed this to corresponding publisher and dropped the version to 1.0.0 here and in every `task.json` file. 
 
 ## Integration
+### Prerequisite
+2 separate TEST instances. Do not do in production. 
+Create a test user with admin role and provide credentials in env variables
 
 This project contains [azure-pipeline.yml](azure-pipelines.yml) file - when this repository added into ADO as a pipeline source, it will automatically create a pipeline, triggered by changes in `master` branch. It will install dependencies, run the Unit and Integration test and on success it will build and publish the artifact mentioned in [Build](#build) section.
 
