@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest mockTransport --runInBand",
     "integration": "jest integration --runInBand --bail",
+    "testBuild": "jest testBuild --runInBand --bail",
     "build": "node build.js"
   },
   "repository": {
@@ -25,14 +26,15 @@
   },
   "homepage": "https://github.com/ServiceNow/servicenow-cicd-azure-extension#readme",
   "dependencies": {
-    "archiver": "^5.0.0",
-    "fs-extra": "^9.0.1"
+    "azure-pipelines-task-lib": "2.9.6"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "devDependencies": {
     "jest": "^26.4.0",
-    "rewire": "^5.0.0"
+    "rewire": "^5.0.0",
+    "archiver": "^5.0.0",
+    "fs-extra": "^9.0.1"
   }
 }
