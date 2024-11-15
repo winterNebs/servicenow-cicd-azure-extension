@@ -8,10 +8,11 @@
     "category": "Package",
     "author": "ServiceNow",
     "version": {
-        "Major": 2,
+        "Major": 3,
         "Minor": 0,
-        "Patch": 7
+        "Patch": 0
     },
+    "minimumAgentVersion": "2.144.0",
     "instanceNameFormat": "ServiceNow CI/CD Apply Changes",
     "showEnvironmentVariables": false,
     "inputs": [
@@ -50,7 +51,7 @@
         "Server"
     ],
     "execution": {
-        "Node": {
+        "Node10": {
             "target": "index.js"
         }
     }
