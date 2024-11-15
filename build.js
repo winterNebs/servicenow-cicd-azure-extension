@@ -2,6 +2,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const archiver = require('archiver');
 const path = require('path');
+const {execSync} = require('child_process');
 
 const tasks = [
     'AppInstall',
@@ -112,7 +113,7 @@ function build(version) {
                 copy('src/lib/ServiceNowCICDRestAPIService.js', `out/Tasks/${task}/ServiceNowCICDRestAPIService.js`),
                 copy('src/lib/index.js', `out/Tasks/${task}/index.js`),
                 copy(`src/lib/${task}.js`, `out/Tasks/${task}/task.js`),
-                copy('src/node_modules', `out/Tasks/${task}/node_modules`)
+                copy('prod_deps/node_modules', `out/Tasks/${task}/node_modules`)
             ])))
         )
         .then(() => createArchive(version))
@@ -137,8 +138,21 @@ function createArchive() {
         archive.finalize();
     });
 }
-
+function installDependencies(){
+    const outDir = path.join(__dirname, 'prod_deps');
+    console.log("copying package.json to ", outDir);
+    // copy package.json, run the prod build so we can copy it to extension
+   return fse.copy(path.join(__dirname, "package.json"),path.join(outDir,"package.json")).then(()=>{
+       new Promise(()=>{
+        console.log("installing packages");
+        execSync("npm install --production --prune --prefix " + outDir);
+        console.log("done installing packages");
+       })
+    }).catch(err=>console.log(err));
+}
+installDependencies().then(()=>{
 updateVersion()
     .then(version => build(version))
     .then(() => console.log('success'))
-    .catch(e => console.error(e));
+    .catch(e => console.error(e))
+});
