@@ -29,18 +29,18 @@ npm install
 ```
 
 ### Requirements
-- nodejs ver >=8.0
-### DevDependecies
-- [jest](https://github.com/facebook/jest)
-### Dependencies
-- [archiver](https://github.com/archiverjs/node-archiver)
-- [fs-extra](https://github.com/jprichardson/node-fs-extra)
+- nodejs ver >=10.0
+- At least 1 ServiceNow Test instance (2 is perferred)
+- A web service user (with admin role?) on each instance
+- A test suite that always fails
 
 ## Tests
 
 Project contains the [tests](tests/) folder. Inside are two files with mocks - [pipeline.js](tests/pipeline.js) and [transport.js](tests/transport.js) - pipeline emulates the AzureDevops pipeline inputs and variables, and transport have a mock for a ServiceNow API calls, it consumes the jsons generated from real server responses. The third file in the root of tests is [integration.test.js](tests/integration.test.js). This one emulates the whole pipeline's inputs from ADO and works as a pipeline itself, sending the requests for real ServiceNow server. The integration tests is required before building the extension artifact.
 
 The tests folder contains also subfolders with tests and mock-data jsons. These are the unit tests for existing endpoints and for correct error processing like 404s.
+
+Additionally there is a test to validate that the Azure Pipeline Task builds correctly at [buildTest.test.js](test/buildTest.test.js)
 
 Tests should be ran via npm commands:
 
@@ -49,10 +49,32 @@ Tests should be ran via npm commands:
 npm run test
 ```   
 
+
+To run the integration / build test, you must set the following environment variables:
+
+```
+AUTHOR_URL="myinstance.service-now.com"
+CLIENT_URL="myinstance.service-now.com"
+AUTH_STRING='USER_NAME:PASSWORD'
+SCOPE="my_scope_name"
+PLUGIN=com.snc.uxf_demo_apps
+FAIL_ID="sys_id of test suite that always fails"
+INPUT_connectedServiceName=test
+ENDPOINT_URL_test="myinstance.service-now.com"
+ENDPOINT_AUTH_PARAMETER_TEST_USERNAME="USER_NAME"
+ENDPOINT_AUTH_PARAMETER_TEST_PASSWORD="PASSWORD"
+```
+
 #### Integration test
 ```shell script
 npm run integration
 ```   
+
+#### Build Test
+```shell script
+npm run buildTest
+
+```
 
 > Note: The Rollback Plugin task will sometimes fails on ServiceNow instances despite a previously successful response to a Plugin Activate task. You can retry the test suite and hope the flakiness disappears and the tests pass. Also, the Apply Changes task in the integration tests is temporarily commented out while differences in behavior between the API and UI for Apply Remote Changes in an instance (Orlando or Paris) are being resolved. 
 

@@ -24,10 +24,10 @@ describe("Unit test on real serverts", () => {
         test("Publish", (done) => {
             tasks.AppPublish.init(
                 new Pipeline({
-                    url: author,
+                    url: client,
                     scope: scope,
                     versionFormat: "autodetect",
-                    increment_by: 1
+                    increment_by: 4
                 })
             );
             return tasks.AppPublish.run()
