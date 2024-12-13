@@ -10,25 +10,32 @@ const failSuite = process.env.FAIL_ID || "73159102db125010022240ceaa961937";
     .forEach((task) => (tasks[task] = require(`../src/lib/${task}`)));
 
 const path = require("path");
-const ttm = require("azure-pipelines-task-lib/mock-test")
+const ttm = require("azure-pipelines-task-lib/mock-test");
 
-process.env["BUILD_SOURCESDIRECTORY"] = "tmpbuild"
+process.env["BUILD_SOURCESDIRECTORY"] = "tmpbuild";
 
 describe("Test Extension Tasks", () => {
-    test("Run Task Publish", done => {
-        let tp = path.join(__dirname, 'success.js');
-        let taskPath = path.join(__dirname, '..', 'out', 'Tasks', 'AppPublish', 'task.json');
-        console.log(tp)
+    test("Run Task Publish", (done) => {
+        let tp = path.join(__dirname, "success.js");
+        let taskPath = path.join(
+            __dirname,
+            "..",
+            "out",
+            "Tasks",
+            "AppPublish",
+            "task.json"
+        );
+        console.log(tp);
         let tr = new ttm.MockTestRunner(tp, taskPath);
-        tr.run();
-        expect(tr.succeeded).toBe(true);
-        expect(tr.warningIssues.length).toBe(0);
-        expect(tr.errorIssues.length).toBe(0);
+        tr.runAsync().then(() => {
+            expect(tr.succeeded).toBe(true);
+            expect(tr.warningIssues.length).toBe(0);
+            expect(tr.errorIssues.length).toBe(0);
 
-        done();
-    })
+            done();
+        });
+    });
 });
-
 
 /*
 Pipeline.defaults({
