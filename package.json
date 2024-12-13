@@ -1,6 +1,6 @@
 {
   "name": "servicenow_cicd_azuredevops",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "ServiceNow CICD Extension for Azure Pipelines",
   "main": "build.js",
   "scripts": {
@@ -26,10 +26,10 @@
   },
   "homepage": "https://github.com/ServiceNow/servicenow-cicd-azure-extension#readme",
   "dependencies": {
-    "azure-pipelines-task-lib": "^4.1.0"
+    "azure-pipelines-task-lib": "^4.13.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "jest": "^26.4.0",
